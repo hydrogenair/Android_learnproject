@@ -3,14 +3,13 @@ plugins {
 }
 
 android {
-    namespace 'com.lx.quizactivity'
+    namespace 'com.lx.geoquiz'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.lx.quizactivity"
+        applicationId "com.lx.geoquiz"
         minSdk 26
-        //noinspection ExpiredTargetSdkVersion
-        targetSdk 29
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 

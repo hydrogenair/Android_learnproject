@@ -1,4 +1,4 @@
-package com.lx.quizactivity;
+package com.lx.geoquiz;
 
 import org.junit.Test;
 

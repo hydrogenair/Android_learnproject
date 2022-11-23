@@ -1,15 +1,15 @@
-package com.lx.quizactivity;
+package com.lx.geoquiz;
 
 public class Question {
+
     private int mTextResId;
     private boolean mAnswerTrue;
 
-    public Question(int textResId,boolean answerTrue){
-        mTextResId=textResId;
-        mAnswerTrue=answerTrue;
+    public Question(int textResId, boolean answerTrue) {
+        mTextResId = textResId;
+        mAnswerTrue = answerTrue;
+    }
 
-    }//构造器
-    //设置了m为前缀
     public int getTextResId() {
         return mTextResId;
     }

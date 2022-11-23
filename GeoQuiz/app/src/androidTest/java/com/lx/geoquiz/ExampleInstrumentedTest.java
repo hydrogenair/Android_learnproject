@@ -1,4 +1,4 @@
-package com.lx.quizactivity;
+package com.lx.geoquiz;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.lx.quizactivity", appContext.getPackageName());
+        assertEquals("com.lx.geoquiz", appContext.getPackageName());
     }
 }
