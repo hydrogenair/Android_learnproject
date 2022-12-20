@@ -8,13 +8,21 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    //是否需要创建police
+    private boolean mRequiresPolice;
 
     public Crime( ) {
         //随机产生一个ID
         mId = UUID.randomUUID();
         mDate=new Date();
     }
+    public boolean isRequiresPolice() {
+        return mRequiresPolice;
+    }
 
+    public void setRequiresPolice(boolean requiresPolice) {
+        mRequiresPolice = requiresPolice;
+    }
     public String getTitle() {
         return mTitle;
     }
