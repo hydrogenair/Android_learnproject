@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class CrimeListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private  Crime mCrime;
+        private ImageView msolvedImageView;
 
         public CrimeHolder(LayoutInflater inflater,ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_crime,parent,false));
@@ -62,6 +64,7 @@ public class CrimeListFragment extends Fragment {
             //关联一下视图组件
             mTitleTextView=(TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView=(TextView) itemView.findViewById(R.id.crime_date);
+            msolvedImageView=(ImageView) itemView.findViewById(R.id.imageView);
         }
 
         @Override
@@ -76,6 +79,8 @@ public class CrimeListFragment extends Fragment {
             mCrime=crime;
             mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
+            //根据crime记录的解决状态，控制图片的显示
+            msolvedImageView.setVisibility(crime.isSolved()?View.INVISIBLE:View.GONE);
         }
 
     }
