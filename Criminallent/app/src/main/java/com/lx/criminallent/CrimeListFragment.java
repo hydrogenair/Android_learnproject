@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment {
@@ -77,8 +79,14 @@ public class CrimeListFragment extends Fragment {
         //每次有新的Crime要在CrimeHolder中显示时，都要调用它一次。
         public void bind(Crime crime){
             mCrime=crime;
+            //设置文本
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+
+            //String formatdata = "yyyy,MM,dd 'at' HH:mm:ss";
+            //String date = DateFormat.format(formatdata, mCrime.getDate()).toString();
+            DateFormat df= new SimpleDateFormat("EEE,MMM dd,yyyy");
+            String time=df.format(mCrime.getDate());
+            mDateTextView.setText(time);
             //根据crime记录的解决状态，控制图片的显示
             msolvedImageView.setVisibility(crime.isSolved()?View.INVISIBLE:View.GONE);
         }
@@ -112,7 +120,9 @@ public class CrimeListFragment extends Fragment {
         public void bind(Crime crime){
             mPoliceCrime=crime;
             mTitleTextView.setText(mPoliceCrime.getTitle());
-            mDateTextView.setText(mPoliceCrime.getDate().toString());
+            DateFormat df= new SimpleDateFormat("EEE,MMM dd,yyyy");
+            String time=df.format(mPoliceCrime.getDate());
+            mDateTextView.setText(time);
         }
     }
 //Adapter负责：
