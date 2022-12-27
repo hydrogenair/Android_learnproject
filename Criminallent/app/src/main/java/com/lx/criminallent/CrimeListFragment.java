@@ -66,7 +66,7 @@ public class CrimeListFragment extends Fragment {
             //关联一下视图组件
             mTitleTextView=(TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView=(TextView) itemView.findViewById(R.id.crime_date);
-            msolvedImageView=(ImageView) itemView.findViewById(R.id.imageView);
+            msolvedImageView=(ImageView) itemView.findViewById(R.id.handcuffs);
         }
 
         @Override
@@ -88,7 +88,7 @@ public class CrimeListFragment extends Fragment {
             String time=df.format(mCrime.getDate());
             mDateTextView.setText(time);
             //根据crime记录的解决状态，控制图片的显示
-            msolvedImageView.setVisibility(crime.isSolved()?View.INVISIBLE:View.GONE);
+            msolvedImageView.setVisibility(crime.isSolved()?View.VISIBLE:View.GONE);
         }
 
     }
@@ -155,7 +155,7 @@ public class CrimeListFragment extends Fragment {
         //创建一个LayoutInflater，然后用它创建CrimeHolder。
         LayoutInflater layoutInflater=LayoutInflater.from(getActivity());
         //据getViewType函数里面的设置的viewType的值，调用不同的holder
-        if(viewType==1){
+        if(viewType==0){
             return new PoliceCrimeHolder(layoutInflater, parent);
         }else {
             return new CrimeHolder(layoutInflater,parent);
@@ -172,7 +172,7 @@ public class CrimeListFragment extends Fragment {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Crime crime=mCrimes.get(position);
         //指定类型
-        if(this.getItemViewType(position)==1){
+        if(this.getItemViewType(position)==0){
             ((PoliceCrimeHolder)holder).bind(crime);
         }else {
             ((CrimeHolder)holder).bind(crime);
