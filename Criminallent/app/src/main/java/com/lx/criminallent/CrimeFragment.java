@@ -15,6 +15,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.util.UUID;
+
 //CrimeFragment类是与模型及视图对象交互的控制器，
 //用于显示特定crime的明细信息，并在用户修改这些信息后立即进行更新
 public class CrimeFragment extends Fragment {
@@ -22,12 +25,30 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private static final String ARG_CRIME_ID="crime_id";
+    //完成fragment实例及Bundle对象的创建，
+    // 然后将argument放入bundle中，
+    // 最后再附加给fragment
+    public static CrimeFragment newInstance(UUID crimeId){
+        Bundle args=new Bundle();
+        //构造一个键值对即一个argument
+        args.putSerializable(ARG_CRIME_ID,crimeId);
+
+        CrimeFragment fragment=new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     //实例化fragement
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //创建一个crime 对象
-        mCrime=new Crime();
+        //getSerializableExtra用于传递类对象 即找到EXTRA_CRIME_ID的值
+//        UUID crimeId=(UUID) getActivity().getIntent()
+//                .getSerializableExtra(MainActivity.EXTRA_CRIME_ID);
+//        mCrime=CrimeLab.get(getActivity()).getCrime(crimeId);
+        UUID crimeId=(UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        mCrime=CrimeLab.get(getActivity()).getCrime(crimeId);
     }
     //实例化fragement的视图布局
     //然后将实例化的 View 返回给托管 activity
@@ -44,6 +65,7 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
         //实例化组件
         mTitleField=(EditText)v.findViewById(R.id.crime_title);
+        mTitleField.setText(mCrime.getTitle());
         //对文字输入监视
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,6 +91,7 @@ public class CrimeFragment extends Fragment {
 
         //监听CheckBox
         mSolvedCheckBox=(CheckBox) v.findViewById(R.id.crime_solved);
+        mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override

@@ -1,5 +1,7 @@
 package com.lx.criminallent;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +41,34 @@ public class CrimeListFragment extends Fragment {
         updateUI();
         return view;
     }
+   //模型层保存的数据若有变化（或可能有变） 应通知RecyclerView的Adapter
+    //用户点击后退键返回到列表项界面，CrimeActivity随即弹出栈外并被销毁。
+   // 此时，CrimeListActivity立即重新启动并恢复运行
+   //操作系统会发出调用onResume()生命周期方法的指令。
+    @Override
+    public void onResume(){
+        super.onResume();
+        //刷新列表 更新更改内容
+        updateUI();
+    }
+
     private void updateUI(){
+        //初始化列表
         CrimeLab crimeLab=CrimeLab.get(getActivity());
         List<Crime> crimes=crimeLab.getCrimes();
-        System.out.println(crimes.size());
+        //System.out.println(crimes.size());
 
-        mAdapter =new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if(mAdapter==null){
+            //关联recycleview 和adapter
+            mAdapter =new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        }else{
+            //调用notifyDataSetChanged()方法来修改updateUI()方法
+            //notifyDataSetChanged方法通过一个外部的方法控制如果适配器的内容改变时
+            //需要强制调用getView来刷新每个Item的内容。
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
 //实例化list_item_crime布局，然后传给super(...)方法，也就是ViewHolder的构造方法。
@@ -64,15 +87,18 @@ public class CrimeListFragment extends Fragment {
             //重写接口Onclick这里再调用就是完整的
             itemView.setOnClickListener(this);
             //关联一下视图组件
-            mTitleTextView=(TextView) itemView.findViewById(R.id.crime_title);
-            mDateTextView=(TextView) itemView.findViewById(R.id.crime_date);
-            msolvedImageView=(ImageView) itemView.findViewById(R.id.handcuffs);
+            mTitleTextView=itemView.findViewById(R.id.crime_title);
+            mDateTextView=itemView.findViewById(R.id.crime_date);
+            msolvedImageView= itemView.findViewById(R.id.handcuffs);
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mCrime.getTitle()+"checked!",Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(getActivity(), mCrime.getTitle()+"checked!",Toast.LENGTH_SHORT)
+//                    .show();
+            //从fragment中启动Activity类似Activity中启动activity 用intent
+            Intent intent= MainActivity.newIntent(getActivity(),mCrime.getId());
+            startActivity(intent);
         }
 
     //CrimeHolder还需要一个bind(Crime)方法。

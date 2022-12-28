@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Crime {
+    //UUID 一种可电脑自动生成识别的通用唯一识别码
     private UUID mId;
     private String mTitle;
     private Date mDate;
