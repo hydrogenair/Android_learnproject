@@ -3,7 +3,9 @@ package com.lx.criminallent;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.UUID;
 
 public class CrimeLab {
@@ -20,7 +22,6 @@ public class CrimeLab {
 
 
     public CrimeLab(Context context) {
-        mCrimes =new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             //满载100个crime数据的模型层诞生了
             Crime crime=new Crime();
@@ -32,7 +33,7 @@ public class CrimeLab {
             }else{
                 crime.setRequiresPolice(false);
             }
-            mCrimes.add(crime);
+          mCrimes.add(crime);
         }
     }
 
@@ -47,6 +48,7 @@ public class CrimeLab {
 
 //单例
     public static CrimeLab get(Context context){
+
         if(sCrimeLab==null){
             sCrimeLab= new CrimeLab(context);
         }

@@ -26,6 +26,8 @@ public class CrimeListFragment extends Fragment {
     //每一个列表项都是作为一个View子对象显示的
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    //保存刷新位置
+    private int UpdatePosition = 0;
 
     @Nullable
     @Override
@@ -33,7 +35,7 @@ public class CrimeListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_crime_list,container,false);
 
-        mCrimeRecyclerView=(RecyclerView)view.findViewById(R.id.crime_recycler_view);
+        mCrimeRecyclerView=view.findViewById(R.id.crime_recycler_view);
         //RecyclerView类不会亲自摆放屏幕上的列表项。
         //实际上，摆放的任务被委托给了LayoutManager。
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -65,8 +67,9 @@ public class CrimeListFragment extends Fragment {
         }else{
             //调用notifyDataSetChanged()方法来修改updateUI()方法
             //notifyDataSetChanged方法通过一个外部的方法控制如果适配器的内容改变时
-            //需要强制调用getView来刷新每个Item的内容。
-            mAdapter.notifyDataSetChanged();
+            //需要强制调用getView来刷新每个Item的内容
+            //notifyItemChanged局部刷新
+            mAdapter.notifyItemChanged(UpdatePosition);
         }
 
     }
@@ -98,6 +101,9 @@ public class CrimeListFragment extends Fragment {
 //                    .show();
             //从fragment中启动Activity类似Activity中启动activity 用intent
             Intent intent= MainActivity.newIntent(getActivity(),mCrime.getId());
+            //notifyDataSetChanged方法会通知RecyclerView刷新全部的可见列表项。
+            //notifyItemChanged则只是刷新局部
+            UpdatePosition=getAdapterPosition();
             startActivity(intent);
         }
 
@@ -128,9 +134,9 @@ public class CrimeListFragment extends Fragment {
         public PoliceCrimeHolder(LayoutInflater inflater,ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_police_crime,parent,false));
             itemView.setOnClickListener(this);
-            mTitleTextView=(TextView)itemView.findViewById(R.id.crime_title);
-            mDateTextView=(TextView) itemView.findViewById(R.id.crime_date);
-            mCallPolice=(Button) itemView.findViewById(R.id.call_police);
+            mTitleTextView=itemView.findViewById(R.id.crime_title);
+            mDateTextView=itemView.findViewById(R.id.crime_date);
+            mCallPolice=itemView.findViewById(R.id.call_police);
 
             mCallPolice.setOnClickListener(view -> Toast.makeText
             (getActivity(),"call police now",
@@ -209,5 +215,6 @@ public class CrimeListFragment extends Fragment {
     public int getItemCount() {
         return mCrimes.size();
     }
+
 }
 }
